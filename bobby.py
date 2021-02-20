@@ -35,7 +35,7 @@ class Bobby:
             return
 
         content = message.content.upper()
-        for check in thank_you_list:
+        for check in Bobby.thank_you_list:
             if content.find(check) > -1:
                 for i in message.mentions:
                     if i != message.author and i != bot.user:
