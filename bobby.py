@@ -88,7 +88,7 @@ class Bobby:
             user=USER,
             password=PASSWORD,
             host=HOST,
-            port=PORT.
+            port=PORT,
         )
         Bobby.conn.autocommit = True
         Bobby.cur = Bobby.conn.cursor()
