@@ -58,9 +58,9 @@ class Bobby:
         )
         profile_embed.set_thumbnail(url=member.avatar_url)
         profile_embed.add_field(name="Karma", value=0, inline=False)
-        for role in member.roles and role.name != "@everyone":
-            print(role.name)
-            roles += role.name + " "
+        for role in member.roles:
+            if role.name != "@everyone":
+                roles += role.name + " "
         profile_embed.add_field(name="Message Count", value=0, inline=True)
         profile_embed.add_field(name="Roles", value=roles, inline=True)
         await ctx.send(embed=profile_embed)
