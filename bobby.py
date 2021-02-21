@@ -39,7 +39,7 @@ class Bobby:
             if content.find(check) > -1:
                 for i in message.mentions:
                     if i != message.author and i != bot.user:
-                        await message.channel.send(f"Gave +1 Rep to {i.mention}")
+                        await message.channel.send(f"Gave +1 Karma to {i.mention}")
                 break
         await bot.process_commands(message)
 
@@ -58,9 +58,10 @@ class Bobby:
         )
         profile_embed.set_thumbnail(url=member.avatar_url)
         profile_embed.add_field(name="Karma", value=0, inline=False)
-        for role in member.roles:
+        for role in member.roles[:-1]:
             if role.name != "@everyone":
-                roles += role.name + " "
+                roles += role.name + ", "
+        roles += member.roles[-1].name
         profile_embed.add_field(name="Message Count", value=0, inline=True)
         profile_embed.add_field(name="Roles", value=roles, inline=True)
         await ctx.send(embed=profile_embed)
