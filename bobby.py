@@ -46,11 +46,6 @@ class Bobby:
     @bot.event
     async def on_ready():
         print(f"Logged in as {bot.user.name}")
-        Bobby.cur.execute(
-            sql.SQL(
-                "CREATE TABLE IF NOT EXISTS {} (name VARCHAR(255) NOT NULL, rep INTEGER NOT NULL, UNIQUE(name))"
-            ).format(sql.Identifier(bot.user.name))
-        )
 
     @bot.command()
     async def message_count(ctx, channel: discord.TextChannel = None):
