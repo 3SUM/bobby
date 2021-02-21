@@ -16,6 +16,8 @@ bot = commands.Bot(command_prefix="b!", intents=intents)
 
 class Bobby:
     thank_you_list = ["THANK YOU", "THANKS", "TY"]
+    conn = None
+    cur = None
 
     @bot.event
     async def on_guild_join(guild):
@@ -46,6 +48,10 @@ class Bobby:
     @bot.event
     async def on_ready():
         print(f"Logged in as {bot.user.name}")
+        sql = """
+            CREATE TABLE IF NOT EXISTS %s (name VARCHAR(255) NOT NULL, rep INTEGER NOT NULL, UNIQUE(name))
+            """
+        Bobby.cur.execute(sql, (bot.user.name,))
 
     @bot.command()
     async def rep(ctx, member: discord.Member = None):
@@ -77,6 +83,15 @@ class Bobby:
         await ctx.send(f"There were {count} message(s) in {channel.mention}")
 
     def main():
+        Bobby.conn = psycopg2.connect(
+            database=DATABASE,
+            user=USER,
+            password=PASSWORD,
+            host=HOST,
+            port=PORT.
+        )
+        Bobby.conn.autocommit = True
+        Bobby.cur = Bobby.conn.cursor()
         bot.run(TOKEN)
 
 
