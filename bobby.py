@@ -52,11 +52,19 @@ class Bobby:
         member = ctx.author
         profile_embed = discord.Embed(
             title=f"Profile of {member.name}",
-            description="sample text",
+            description="Karma Profile and message count",
             color=0x50E3C2,
         )
         profile_embed.set_thumbnail(url=member.avatar_url)
         await ctx.send(embed=profile_embed)
+    
+    @bot.command()
+    async def message_count(ctx, channel: discord.TextChannel=None):
+        channel = channel or ctx.channel
+        count = 0
+        async for _ in channel.history(limit=None):
+            count += 1
+        await ctx.send(f"There were {count} message(s) in {channel.mention}")
         
     def main():
         bot.run(TOKEN)
