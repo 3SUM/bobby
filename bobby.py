@@ -48,7 +48,7 @@ class Bobby:
         print(f"Logged in as {bot.user.name}")
         Bobby.cur.execute(
             sql.SQL("CREATE TABLE IF NOT EXISTS {} (name VARCHAR(255) NOT NULL, rep INTEGER NOT NULL, UNIQUE(name))")
-            .format(sql.Identifier('bribri'))
+            .format(sql.Identifier(bot.user.name))
         )
 
     @bot.command()
