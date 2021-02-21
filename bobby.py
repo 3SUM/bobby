@@ -9,6 +9,7 @@ USER = os.environ.get("USER")
 PASSWORD = os.environ.get("PASSWORD")
 HOST = os.environ.get("HOST")
 PORT = os.environ.get("PORT")
+DATABASE_URL = os.environ['DATABASE_URL']
 
 intents = discord.Intents.default()
 intents.members = True
@@ -84,13 +85,7 @@ class Bobby:
         await ctx.send(f"There were {count} message(s) in {channel.mention}")
 
     def main():
-        Bobby.conn = psycopg2.connect(
-            database=DATABASE,
-            user=USER,
-            password=PASSWORD,
-            host=HOST,
-            port=PORT,
-        )
+        Bobby.conn = psycopg2.connect(DATABASE_URL, sslmode='require')
         Bobby.conn.autocommit = True
         Bobby.cur = Bobby.conn.cursor()
         bot.run(TOKEN)
