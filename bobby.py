@@ -46,7 +46,18 @@ class Bobby:
     @bot.event
     async def on_ready():
         print(f"Logged in as {bot.user.name}")
-              
+
+    @bot.command()
+    async def rep(ctx):
+        member = ctx.message.author
+        profile_embed = discord.Embed(
+            title=f"Profile of {member.name}",
+            description="sample text",
+            color=0x50E3C2,
+        )
+        profile_embed.set_thumbnail(url={member.avatar_url})
+        await ctx.send(embed=profile_embed)
+        
     def main():
         bot.run(TOKEN)
 
