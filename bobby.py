@@ -58,9 +58,9 @@ class Bobby:
         profile_embed.set_thumbnail(url=member.avatar_url)
         profile_embed.add_field(name="total", value=0, inline=False)
         await ctx.send(embed=profile_embed)
-    
+
     @bot.command()
-    async def message_count(ctx, channel: discord.TextChannel=None):
+    async def message_count(ctx, channel: discord.TextChannel = None):
         channel = channel or ctx.channel
         count = 0
         async for _ in channel.history(limit=None):
