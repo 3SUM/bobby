@@ -59,6 +59,7 @@ class Bobby:
         profile_embed.set_thumbnail(url=member.avatar_url)
         profile_embed.add_field(name="Karma", value=0, inline=False)
         for role in member.roles:
+            print(role.name)
             roles += role.name + " "
         profile_embed.add_field(name="Message Count", value=0, inline=True)
         profile_embed.add_field(name="Roles", value=roles, inline=True)
