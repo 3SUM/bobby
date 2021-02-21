@@ -49,14 +49,19 @@ class Bobby:
 
     @bot.command()
     async def rep(ctx, member: discord.Member = None):
+        roles = ""
         member = member or ctx.author
         profile_embed = discord.Embed(
             title=f"Profile of {member.name}",
-            description="Karma Profile and message count",
+            description="Karma Profile",
             color=0x50E3C2,
         )
         profile_embed.set_thumbnail(url=member.avatar_url)
-        profile_embed.add_field(name="total", value=0, inline=False)
+        profile_embed.add_field(name="Karma", value=0, inline=False)
+        for role in member.roles:
+            roles += role.name + " "
+        profile_embed.add_field(name="Message Count", value=0, inline=True)
+        profile_embed.add_field(name="Roles", value=roles, inline=True)
         await ctx.send(embed=profile_embed)
 
     @bot.command()
