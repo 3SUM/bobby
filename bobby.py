@@ -4,12 +4,12 @@ import discord
 from discord.ext import commands
 from psycopg2 import sql
 
-TOKEN = os.environ['TOKEN']
-DATABASE_URL = os.environ['DATABASE_URL']
+TOKEN = os.environ["TOKEN"]
+DATABASE_URL = os.environ["DATABASE_URL"]
 
 intents = discord.Intents.default()
 intents.members = True
-bot = commands.Bot(command_prefix="b!", intents=intents)
+bot = commands.Bot(command_prefix="?", intents=intents)
 
 
 class Bobby:
@@ -47,9 +47,18 @@ class Bobby:
     async def on_ready():
         print(f"Logged in as {bot.user.name}")
         Bobby.cur.execute(
-            sql.SQL("CREATE TABLE IF NOT EXISTS {} (name VARCHAR(255) NOT NULL, rep INTEGER NOT NULL, UNIQUE(name))")
-            .format(sql.Identifier(bot.user.name))
+            sql.SQL(
+                "CREATE TABLE IF NOT EXISTS {} (name VARCHAR(255) NOT NULL, rep INTEGER NOT NULL, UNIQUE(name))"
+            ).format(sql.Identifier(bot.user.name))
         )
+
+    @bot.command()
+    async def message_count(ctx, channel: discord.TextChannel = None):
+        channel = channel or ctx.channel
+        count = 0
+        async for _ in channel.history(limit=None):
+            count += 1
+        await ctx.send(f"There were {count} message(s) in {channel.mention}")
 
     @bot.command()
     async def rep(ctx, member: discord.Member = None):
@@ -73,15 +82,24 @@ class Bobby:
         await ctx.send(embed=profile_embed)
 
     @bot.command()
-    async def message_count(ctx, channel: discord.TextChannel = None):
-        channel = channel or ctx.channel
-        count = 0
-        async for _ in channel.history(limit=None):
-            count += 1
-        await ctx.send(f"There were {count} message(s) in {channel.mention}")
+    async def setup(ctx):
+        member = ctx.author
+        for role in member.roles:
+            if role.name == "MONKIES":
+                try:
+                    Bobby.cur.execute(
+                        sql.SQL(
+                            "CREATE TABLE IF NOT EXISTS {} (name VARCHAR(255) NOT NULL, rep INTEGER NOT NULL, UNIQUE(name))"
+                        ).format(sql.Identifier(member.guild.name))
+                    )
+                except (Exception, psycopg2.DatabaseError) as error:
+                    print(error)
+                finally:
+                    await ctx.send("Database successfully setup!")
+                break
 
     def main():
-        Bobby.conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        Bobby.conn = psycopg2.connect(DATABASE_URL, sslmode="require")
         Bobby.conn.autocommit = True
         Bobby.cur = Bobby.conn.cursor()
         bot.run(TOKEN)
