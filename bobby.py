@@ -1,4 +1,5 @@
 import os
+import psycopg2
 import discord
 from discord.ext import commands
 
