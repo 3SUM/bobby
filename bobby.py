@@ -51,6 +51,12 @@ class Bobby:
     async def rep(ctx, member: discord.Member = None):
         roles = ""
         member = member or ctx.author
+
+        for role in member.roles[:-1]:
+            if role.name != "@everyone":
+                roles += role.name + ", "
+        roles += member.roles[-1].name
+
         profile_embed = discord.Embed(
             title=f"Profile of {member.name}",
             description="Karma Profile",
@@ -58,10 +64,6 @@ class Bobby:
         )
         profile_embed.set_thumbnail(url=member.avatar_url)
         profile_embed.add_field(name="Karma", value=0, inline=False)
-        for role in member.roles[:-1]:
-            if role.name != "@everyone":
-                roles += role.name + ", "
-        roles += member.roles[-1].name
         profile_embed.add_field(name="Message Count", value=0, inline=True)
         profile_embed.add_field(name="Roles", value=roles, inline=True)
         await ctx.send(embed=profile_embed)
