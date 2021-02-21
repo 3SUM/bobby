@@ -2,13 +2,9 @@ import os
 import psycopg2
 import discord
 from discord.ext import commands
+from psycopg2 import sql
 
-TOKEN = os.environ.get("TOKEN")
-DATABASE = os.environ.get("DATABASE")
-USER = os.environ.get("USER")
-PASSWORD = os.environ.get("PASSWORD")
-HOST = os.environ.get("HOST")
-PORT = os.environ.get("PORT")
+TOKEN = os.environ['TOKEN']
 DATABASE_URL = os.environ['DATABASE_URL']
 
 intents = discord.Intents.default()
@@ -50,11 +46,10 @@ class Bobby:
     @bot.event
     async def on_ready():
         print(f"Logged in as {bot.user.name}")
-        name = "bribri"
-        sql = """
-            CREATE TABLE IF NOT EXISTS %s (name VARCHAR(255) NOT NULL, rep INTEGER NOT NULL, UNIQUE(name))
-            """
-        Bobby.cur.execute(sql, (name))
+        Bobby.cur.execute(
+            sql.SQL("CREATE TABLE IF NOT EXISTS {} (name VARCHAR(255) NOT NULL, rep INTEGER NOT NULL, UNIQUE(name))")
+            .format(sql.Identifier('bribri'))
+        )
 
     @bot.command()
     async def rep(ctx, member: discord.Member = None):
