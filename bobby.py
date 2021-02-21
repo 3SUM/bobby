@@ -50,10 +50,11 @@ class Bobby:
     @bot.event
     async def on_ready():
         print(f"Logged in as {bot.user.name}")
+        name = "bribri"
         sql = """
             CREATE TABLE IF NOT EXISTS %s (name VARCHAR(255) NOT NULL, rep INTEGER NOT NULL, UNIQUE(name))
             """
-        Bobby.cur.execute(sql, (bot.user.name,))
+        Bobby.cur.execute(sql, (name))
 
     @bot.command()
     async def rep(ctx, member: discord.Member = None):
