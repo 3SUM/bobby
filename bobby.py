@@ -56,6 +56,7 @@ class Bobby:
             color=0x50E3C2,
         )
         profile_embed.set_thumbnail(url=member.avatar_url)
+        profile_embed.add_field(name="total", value=0, inline=False)
         await ctx.send(embed=profile_embed)
     
     @bot.command()
@@ -65,7 +66,7 @@ class Bobby:
         async for _ in channel.history(limit=None):
             count += 1
         await ctx.send(f"There were {count} message(s) in {channel.mention}")
-        
+
     def main():
         bot.run(TOKEN)
 
