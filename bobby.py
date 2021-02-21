@@ -48,8 +48,8 @@ class Bobby:
         print(f"Logged in as {bot.user.name}")
 
     @bot.command()
-    async def rep(ctx):
-        member = ctx.author
+    async def rep(ctx, member: discord.Member = None):
+        member = member or ctx.author
         profile_embed = discord.Embed(
             title=f"Profile of {member.name}",
             description="Karma Profile and message count",
