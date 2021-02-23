@@ -44,8 +44,8 @@ class Bobby:
                             guild = message.author.guild
                             Bobby.cur.execute(
                                 sql.SQL(
-                                    "INSERT INTO {} (name, karma) VALUES (%s, %s) ON CONFLICT (name) DO UPDATE SET karma = {}.karma + 1;"
-                                ).format(sql.Identifier(guild.name)),
+                                    "INSERT INTO {table} (name, karma) VALUES (%s, %s) ON CONFLICT (name) DO UPDATE SET karma = {table}.karma + 1;"
+                                ).format(table=sql.Identifier(guild.name)),
                                 [i.name, 1],
                             )
                         except (Exception, psycopg2.DatabaseError) as error:
