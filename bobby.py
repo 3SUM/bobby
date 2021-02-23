@@ -47,7 +47,7 @@ class Bobby:
                                 sql.SQL(
                                     "INSERT INTO {table} (name, karma) VALUES (%s, %s) ON CONFLICT (name) DO UPDATE SET karma = {table}.karma + 1;"
                                 ).format(table=sql.Identifier(guild.name)),
-                                [i.name, 1],
+                                [name, 1],
                             )
                         except (Exception, psycopg2.DatabaseError) as error:
                             print(error)
