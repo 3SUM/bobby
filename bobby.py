@@ -40,7 +40,19 @@ class Bobby:
             if content.find(check) > -1:
                 for i in message.mentions:
                     if i != message.author and i != bot.user:
-                        await message.channel.send(f"Gave +1 Karma to {i.mention}")
+                        try:
+                            guild = message.author.guild
+                            name = message.author.name
+                            Bobby.cur.execute(
+                                sql.SQL(
+                                    "INSERT INTO {} (name, rep) VALUES (%s, %s)"
+                                ).format(sql.Identifier(guild.name)),
+                                [name, 1],
+                            )
+                        except (Exception, psycopg2.DatabaseError) as error:
+                            print(error)
+                        finally:
+                            await message.channel.send(f"Gave +1 Karma to {i.mention}")
                 break
         await bot.process_commands(message)
 
