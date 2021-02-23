@@ -85,7 +85,7 @@ class Bobby:
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
         finally:
-            print(karma)
+            print(karma[0])
 
         join_date = member.joined_at
         join_date = f"{join_date.month}/{join_date.day}/{join_date.year}"
