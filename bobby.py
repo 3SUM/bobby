@@ -42,7 +42,7 @@ class Bobby:
                     if i != message.author and i != bot.user:
                         try:
                             guild = message.author.guild
-                            name = message.author.name
+                            name = i.name
                             Bobby.cur.execute(
                                 sql.SQL(
                                     "INSERT INTO {} (name, rep) VALUES (%s, %s)"
