@@ -21,6 +21,16 @@ class Bobby:
     @bot.event
     async def on_guild_join(guild):
         print(f"{bot.user.name} joined {guild.name}")
+        try:
+            Bobby.cur.execute(
+                sql.SQL(
+                    "CREATE TABLE IF NOT EXISTS {} (name VARCHAR(255) NOT NULL, karma INTEGER, UNIQUE(name))"
+                ).format(sql.Identifier(guild.name))
+            )
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            print(f"Database Table for {guild.name} setup!")
 
     @bot.event
     async def on_member_join(member):
@@ -61,14 +71,6 @@ class Bobby:
         print(f"Logged in as {bot.user.name}")
 
     @bot.command()
-    async def message_count(ctx, channel: discord.TextChannel = None):
-        channel = channel or ctx.channel
-        count = 0
-        async for _ in channel.history(limit=None):
-            count += 1
-        await ctx.send(f"There were {count} message(s) in {channel.mention}")
-
-    @bot.command()
     async def profile(ctx, member: discord.Member = None):
         roles = ""
         member = member or ctx.author
@@ -107,23 +109,6 @@ class Bobby:
         profile_embed.add_field(name="Date Joined", value=join_date, inline=True)
         profile_embed.add_field(name="Roles", value=roles, inline=True)
         await ctx.send(embed=profile_embed)
-
-    @bot.command()
-    async def setup(ctx):
-        member = ctx.author
-        for role in member.roles:
-            if role.name == "MONKIES":
-                try:
-                    Bobby.cur.execute(
-                        sql.SQL(
-                            "CREATE TABLE IF NOT EXISTS {} (name VARCHAR(255) NOT NULL, karma INTEGER, UNIQUE(name))"
-                        ).format(sql.Identifier(member.guild.name))
-                    )
-                except (Exception, psycopg2.DatabaseError) as error:
-                    print(error)
-                finally:
-                    await ctx.send("Database successfully setup!")
-                break
 
     def main():
         Bobby.conn = psycopg2.connect(DATABASE_URL, sslmode="require")
