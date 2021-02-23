@@ -45,7 +45,7 @@ class Bobby:
                             name = i.name
                             Bobby.cur.execute(
                                 sql.SQL(
-                                    "INSERT INTO {} (name, karma) VALUES (%s, %s) ON CONFLICT (name) DO UPDATE SET karma = excluded.karma;"
+                                    "INSERT INTO {} (name, karma) VALUES (%s, %s) ON CONFLICT (name) DO UPDATE SET karma = excluded.karma + 1;"
                                 ).format(sql.Identifier(guild.name)),
                                 [name, 1],
                             )
