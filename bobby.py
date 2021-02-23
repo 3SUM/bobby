@@ -73,14 +73,16 @@ class Bobby:
         roles = ""
         member = member or ctx.author
         name = member.name
-
+        karma = 0
         try:
-            karma = Bobby.cur.execute(
+            Bobby.cur.execute(
                 sql.SQL("SELECT karma FROM {} WHERE name = %s").format(
                     sql.Identifier(member.guild.name)
                 ),
                 [name],
             )
+            karma = Bobby.cur.fetchall()
+            print(karma)
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
         finally:
