@@ -42,12 +42,11 @@ class Bobby:
                     if i != message.author and i != bot.user:
                         try:
                             guild = message.author.guild
-                            name = i.name
                             Bobby.cur.execute(
                                 sql.SQL(
                                     "INSERT INTO {} (name, karma) VALUES (%s, %s) ON CONFLICT (name) DO UPDATE SET karma = excluded.karma + 1;"
                                 ).format(sql.Identifier(guild.name)),
-                                [name, 1],
+                                [i.name, 1],
                             )
                         except (Exception, psycopg2.DatabaseError) as error:
                             print(error)
@@ -116,7 +115,7 @@ class Bobby:
                 try:
                     Bobby.cur.execute(
                         sql.SQL(
-                            "CREATE TABLE IF NOT EXISTS {} (name VARCHAR(255) NOT NULL, karma INTEGER NOT NULL, UNIQUE(name))"
+                            "CREATE TABLE IF NOT EXISTS {} (name VARCHAR(255) NOT NULL, karma INTEGER, UNIQUE(name))"
                         ).format(sql.Identifier(member.guild.name))
                     )
                 except (Exception, psycopg2.DatabaseError) as error:
