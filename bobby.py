@@ -87,7 +87,7 @@ class Bobby:
         finally:
             if karma:
                 karma = karma[0]
-            else
+            else:
                 karma = 0
 
         join_date = member.joined_at
