@@ -72,6 +72,20 @@ class Bobby:
     async def rep(ctx, member: discord.Member = None):
         roles = ""
         member = member or ctx.author
+        name = member.name
+
+        try:
+            karma = Bobby.cur.execute(
+                sql.SQL("SELECT karma FROM {} WHERE name = %s").format(
+                    sql.Identifier(member.guild.name)
+                ),
+                [name],
+            )
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+        finally:
+            print(karma)
+
         join_date = member.joined_at
         join_date = f"{join_date.month}/{join_date.day}/{join_date.year}"
         for role in member.roles[:-1]:
