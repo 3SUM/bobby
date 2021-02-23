@@ -81,8 +81,7 @@ class Bobby:
                 ),
                 [name],
             )
-            karma = Bobby.cur.fetchall()
-            print(karma)
+            karma = Bobby.cur.fetchone()
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
         finally:
