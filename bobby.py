@@ -41,6 +41,7 @@ class Bobby:
                 for i in message.mentions:
                     if i != message.author and i != bot.user:
                         try:
+                            name = i.name + i.discriminator
                             guild = message.author.guild
                             Bobby.cur.execute(
                                 sql.SQL(
@@ -68,10 +69,10 @@ class Bobby:
         await ctx.send(f"There were {count} message(s) in {channel.mention}")
 
     @bot.command()
-    async def rep(ctx, member: discord.Member = None):
+    async def profile(ctx, member: discord.Member = None):
         roles = ""
         member = member or ctx.author
-        name = member.name
+        name = member.name + member.discriminator
         karma = 0
         try:
             Bobby.cur.execute(
