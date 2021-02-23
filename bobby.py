@@ -45,7 +45,7 @@ class Bobby:
                             name = i.name
                             Bobby.cur.execute(
                                 sql.SQL(
-                                    "INSERT INTO {} (name, rep) VALUES (%s, %s)"
+                                    "INSERT INTO {} (name, karma) VALUES (%s, %s) ON CONFLICT (name) DO UPDATE SET karma = excluded.karma;"
                                 ).format(sql.Identifier(guild.name)),
                                 [name, 1],
                             )
@@ -98,7 +98,7 @@ class Bobby:
                 try:
                     Bobby.cur.execute(
                         sql.SQL(
-                            "CREATE TABLE IF NOT EXISTS {} (name VARCHAR(255) NOT NULL, rep INTEGER NOT NULL, UNIQUE(name))"
+                            "CREATE TABLE IF NOT EXISTS {} (name VARCHAR(255) NOT NULL, karma INTEGER NOT NULL, UNIQUE(name))"
                         ).format(sql.Identifier(member.guild.name))
                     )
                 except (Exception, psycopg2.DatabaseError) as error:
