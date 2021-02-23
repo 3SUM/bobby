@@ -1,4 +1,5 @@
 import os
+import datetime
 import psycopg2
 import discord
 from discord.ext import commands
@@ -59,7 +60,8 @@ class Bobby:
     async def rep(ctx, member: discord.Member = None):
         roles = ""
         member = member or ctx.author
-
+        join_date = member.joined_at
+        join_date = join_date.strftime("%m/%d/%Y, %H:%M:%S")
         for role in member.roles[:-1]:
             if role.name != "@everyone":
                 roles += role.name + ", "
@@ -72,7 +74,7 @@ class Bobby:
         )
         profile_embed.set_thumbnail(url=member.avatar_url)
         profile_embed.add_field(name="Karma", value=0, inline=False)
-        profile_embed.add_field(name="Message Count", value=0, inline=True)
+        profile_embed.add_field(name="Date Joined", value=join_date, inline=True)
         profile_embed.add_field(name="Roles", value=roles, inline=True)
         await ctx.send(embed=profile_embed)
 
