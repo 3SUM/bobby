@@ -85,7 +85,10 @@ class Bobby:
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
         finally:
-            print(karma[0])
+            if karma:
+                karma = karma[0]
+            else
+                karma = 0
 
         join_date = member.joined_at
         join_date = f"{join_date.month}/{join_date.day}/{join_date.year}"
@@ -100,7 +103,7 @@ class Bobby:
             color=0x50E3C2,
         )
         profile_embed.set_thumbnail(url=member.avatar_url)
-        profile_embed.add_field(name="Karma", value=0, inline=False)
+        profile_embed.add_field(name="Karma", value=karma, inline=False)
         profile_embed.add_field(name="Date Joined", value=join_date, inline=True)
         profile_embed.add_field(name="Roles", value=roles, inline=True)
         await ctx.send(embed=profile_embed)
