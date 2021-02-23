@@ -61,7 +61,7 @@ class Bobby:
         roles = ""
         member = member or ctx.author
         join_date = member.joined_at
-        join_date = join_date.strftime("%m/%d/%Y, %H:%M:%S")
+        join_date = join_date.strftime("%m/%d/%Y)
         for role in member.roles[:-1]:
             if role.name != "@everyone":
                 roles += role.name + ", "
