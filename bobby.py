@@ -14,7 +14,7 @@ bot = commands.Bot(command_prefix="?", intents=intents)
 
 
 class Bobby:
-    thank_you_list = ["THANK YOU", "THANKS", "TY"]
+    thank_you_list = ["THANK YOU", "THANKS"]
     conn = None
     cur = None
 
