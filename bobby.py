@@ -33,10 +33,6 @@ class Bobby:
             print(f"Database Table for {guild.name} setup!")
 
     @bot.event
-    async def on_member_join(member):
-        print(f"{member.name} has joined!")
-
-    @bot.event
     async def on_member_remove(member):
         print(f"{member.name} has left!")
 
