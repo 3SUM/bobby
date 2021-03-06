@@ -56,7 +56,7 @@ class Bobby:
                                 [name, 1],
                             )
                         except (Exception, psycopg2.DatabaseError) as error:
-                            print(error)
+                            print(error.message)
                         finally:
                             await message.channel.send(f"Gave +1 Karma to {i.mention}")
                 break
