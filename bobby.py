@@ -29,6 +29,12 @@ class Bobby:
             )
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
+            try:
+                Bobby.conn = psycopg2.connect(DATABASE_URL, sslmode="require")
+                Bobby.conn.autocommit = True
+                Bobby.cur = Bobby.conn.cursor()
+            except (Exception, psycopg2.DatabaseError) as conErr:
+                print(conErr)
         finally:
             print(f"Database Table for {guild.name} setup!")
 
@@ -56,7 +62,15 @@ class Bobby:
                                 [name, 1],
                             )
                         except (Exception, psycopg2.DatabaseError) as error:
-                            print(error.message)
+                            print(error)
+                            try:
+                                Bobby.conn = psycopg2.connect(
+                                    DATABASE_URL, sslmode="require"
+                                )
+                                Bobby.conn.autocommit = True
+                                Bobby.cur = Bobby.conn.cursor()
+                            except (Exception, psycopg2.DatabaseError) as conErr:
+                                print(conErr)
                         finally:
                             await message.channel.send(f"Gave +1 Karma to {i.mention}")
                 break
@@ -82,6 +96,12 @@ class Bobby:
             karma = Bobby.cur.fetchone()
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
+            try:
+                Bobby.conn = psycopg2.connect(DATABASE_URL, sslmode="require")
+                Bobby.conn.autocommit = True
+                Bobby.cur = Bobby.conn.cursor()
+            except (Exception, psycopg2.DatabaseError) as conErr:
+                print(conErr)
         finally:
             if karma:
                 karma = karma[0]
